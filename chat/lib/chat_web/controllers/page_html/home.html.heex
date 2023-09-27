@@ -1,0 +1,22 @@
+<div class="bg-gray-900 min-h-[60vh]">
+  <ul id="msg-list" phx-update="append" class="pa-1"></ul>
+</div>
+
+<div
+  id="chat-room"
+  class="flex relative mt-2 items-center"
+>
+  <!-- <label>User:</label> -->
+  <input
+    type="text"
+    placeholder="Your comment"
+    id="user-msg"
+    class="rounded-3xl w-full p-4"
+  >
+  <button
+    id="send"
+    class="absolute right-2 bg-green-700 rounded-full text-white w-12 h-12"
+  >
+    Send
+  </button>
+</div>
