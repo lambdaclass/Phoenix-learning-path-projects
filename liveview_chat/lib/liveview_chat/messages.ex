@@ -7,9 +7,15 @@ defmodule LiveviewChat.Messages do
   def list_messages do
     query =
       from m in Message,
-      select: m
-      # order_by: [desc: inserted_at]
+      select: %{id: m.id, message: m.message, userName: m.userName, inserted_at: m.inserted_at},
+      order_by: [asc: m.inserted_at]
 
     Repo.all(query)
+  end
+
+  def save_message(message_params) do
+    %Message{}
+    |> Message.changeset(message_params)
+    |> Repo.insert()
   end
 end

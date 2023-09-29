@@ -15,10 +15,14 @@ defmodule LiveviewChatWeb.ChatLive do
         |> Message.changeset(%{})
         |> to_form(as: "messageForm")
 
+        IO.inspect(Messages.list_messages())
+
       socket =
         socket
         |> assign(messageForm: form, loading: false)
         |> stream(:messages, Messages.list_messages())
+
+      # Logger.info(Messages.list_messages())
 
       {:ok, socket}
     else
@@ -26,4 +30,35 @@ defmodule LiveviewChatWeb.ChatLive do
     end
   end
 
+  @impl true
+  def handle_event("send-message", %{"messageForm" => messageForm}, socket) do
+    # Logger.info(messageForm)
+
+    messageForm
+    |> Map.put("userName", "test")
+    |> Messages.save_message()
+    |> case do
+      {:ok, message} ->
+        socket =
+          socket
+          |> put_flash(:info, "message sent")
+
+          Phoenix.PubSub.broadcast(LiveviewChat.PubSub, "messages", { :new, message })
+
+        {:noreply, socket}
+
+      {:error, _changeset} ->
+        {:noreply, socket}
+    end
+  end
+
+  @impl true
+  def handle_info({:new, message}, socket) do
+    socket =
+      socket
+      |> put_flash(:info, "New message: #{message.message}")
+      |> stream_insert(:messages, message, at: -1)
+
+      {:noreply, socket}
+  end
 end
