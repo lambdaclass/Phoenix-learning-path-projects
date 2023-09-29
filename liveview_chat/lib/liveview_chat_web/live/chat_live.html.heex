@@ -7,12 +7,22 @@
 <% end %>
 
 <%= if(not @loading) do %>
-  <div class="flex flex-col bg-slate-600 p-6">
-    <div id="msg-list" phx-update="stream" class="flex flex-col text-white gap-y-2">
-      <div :for={{dom_id, message} <- @streams.messages} id={dom_id} class="mr-auto right-0 p-3 flex flex-col bg-slate-800">
+  <div class="flex flex-col bg-slate-600 p-6 h-[80vh]">
+    <div id="msg-list" phx-update="stream" class="flex flex-col text-white gap-y-2 overflow-y-scroll">
+      <div :for={{id, message} <- @streams.messages} id={id} class="mr-auto right-0 p-3 flex flex-col bg-slate-800">
         <p class="font-bold"><%= message.userName %></p>
         <p><%= message.message %></p>
+
+        <%= message.inserted_at %>
       </div>
     </div>
+
+    <.simple_form for={@messageForm} phx-submit="send-message" class="relative">
+      <.input field={@messageForm[:message]} type="text" required />
+
+      <button type="submit" phx-disable-with="Sending..." class="absolute right-0 top-0 h-12 w-12 flex justify-center items-center rounded-full bg-green-700 text-white">
+        <Heroicons.LiveView.icon name="paper-airplane" type="outline" class="h-6 w-6" />
+      </button>
+    </.simple_form>
   </div>
 <% end %>
