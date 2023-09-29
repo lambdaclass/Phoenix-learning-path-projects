@@ -196,11 +196,9 @@ defmodule LiveviewChatWeb.CoreComponents do
   def simple_form(assigns) do
     ~H"""
     <.form :let={f} for={@for} as={@as} {@rest}>
-      <div class="mt-10 space-y-8 bg-white">
-        <%= render_slot(@inner_block, f) %>
-        <div :for={action <- @actions} class="mt-2 flex items-center justify-between gap-6">
-          <%= render_slot(action, f) %>
-        </div>
+      <%= render_slot(@inner_block, f) %>
+      <div :for={action <- @actions} class="mt-2 flex items-center justify-between gap-6">
+        <%= render_slot(action, f) %>
       </div>
     </.form>
     """
@@ -225,7 +223,7 @@ defmodule LiveviewChatWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 rounded-lg bg-zinc-900 hover:bg-zinc-700 py-2 px-3",
+        "phx-submit-loading:opacity-75 bg-zinc-900 hover:bg-zinc-700 py-2 px-3",
         "text-sm font-semibold leading-6 text-white active:text-white/80",
         @class
       ]}
