@@ -23,9 +23,11 @@ defmodule Append.AppendOnlyLog do
       end
 
       def get(id) do
+        Repo.get(__MODULE__, id)
       end
 
-      def all() do
+      def all do
+        Repo.all(__MODULE__)
       end
 
       def update(item, attrs) do
