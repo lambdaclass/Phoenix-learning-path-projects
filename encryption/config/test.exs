@@ -16,9 +16,9 @@ config :encryption, Encryption.Repo,
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :encryption, EncryptionWeb.Endpoint,
-  http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "7EPerJ5vjesevL4h/e62lNGl3oYEGk3NL1KJDEGkSh2nAmm71oRnwIcD/dTWT+HT",
-  server: false
+  http: [port: 4001],
+  server: false,
+  secret_key_base: System.get_env("SECRET_KEY_BASE")
 
 # In test we don't send emails.
 config :encryption, Encryption.Mailer, adapter: Swoosh.Adapters.Test
