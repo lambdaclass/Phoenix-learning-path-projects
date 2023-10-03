@@ -65,4 +65,22 @@ defmodule Append.AddressTest do
 
     assert length(Address.all()) == 2
   end
+
+  test "get history of item" do
+    {:ok, item} = insert_address()
+
+    {:ok, updated_item} = Address.update(item, %{
+      address_line_1: "12",
+      address_line_2: "Kvadraturen",
+      city: "Oslo",
+      postcode: "NW1 SCA",
+    })
+
+    history = Address.get_history(updated_item)
+
+    assert length(history) == 2
+    assert [h1, h2] = history
+    assert h1.city == "Asgard"
+    assert h2.city == "Oslo"
+  end
 end
