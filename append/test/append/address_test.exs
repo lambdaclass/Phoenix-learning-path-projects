@@ -83,4 +83,18 @@ defmodule Append.AddressTest do
     assert h1.city == "Asgard"
     assert h2.city == "Oslo"
   end
+
+  test "deleted items are not retrieved with 'get'" do
+    {:ok, item} = insert_address()
+    {:ok, _} = Address.delete(item)
+
+    assert Address.get(item.entry_id) == nil
+  end
+
+  test "deleted items are not retrieved with 'all'" do
+    {:ok, item} = insert_address()
+    {:ok, _} = Address.delete(item)
+
+    assert length(Address.all()) == 0
+  end
 end
